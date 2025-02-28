@@ -6,7 +6,7 @@ This project is a simple but functional prototype for a university student assis
 
 ## Features
 
-*   Provides information about courses (e.g., CS101, BIO220).
+*   Provides information about courses.
 *   Displays the student's class schedule.
 *   Provides information about upcoming campus events (e.g., sports, academic, social, arts).
 *   Simple and user-friendly web interface.
