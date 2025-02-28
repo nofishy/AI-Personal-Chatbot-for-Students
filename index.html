@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Assistant Prototype</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fce8e6; /* Light red background */
+        }
+        .chat-container {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        .chat-header {
+            background-color: #b71c1c; /* Dark red header */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #fff; /* White chat messages background */
+        }
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .user-message {
+            background-color: #e1f5fe;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+        .bot-message {
+            background-color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 0;
+            border: 1px solid #ddd;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background-color: white;
+            border-top: 1px solid #ccc;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        .chat-input button {
+            background-color: #b71c1c; /* Dark red button */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .student-info {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .student-info h3 {
+            margin-top: 0;
+            color: #b71c1c; /* Dark red heading */
+        }
+    </style>
+</head>
+<body>
+    <div class="student-info">
+        <h3>Student Profile</h3>
+        <p><strong>Name:</strong> Alex Johnson</p>
+        <p><strong>ID:</strong> 12345678</p>
+        <p><strong>Major:</strong> Computer Science</p>
+        <p><strong>Year:</strong> Junior</p>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">University Assistant</div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">Hi Alex! I'm your University Assistant. I can help with course information, your class schedule, and campus events. What would you like to know about?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Mock responses for the prototype
+        const mockResponses = {
+            "hello": "Hi Alex! How can I help you today?",
+            "hi": "Hello Alex! What can I assist you with?",
+            "cs101": "Here's information about CS101: Introduction to computer science and programming concepts. Prerequisites: None. It's offered in Fall and Spring semesters.",
+            "bio220": "Here's information about BIO220: Fundamentals of molecular biology and genetics. Prerequisites: BIO101, CHEM101. It's offered in Spring semester.",
+            "schedule": "Here's your schedule for today, Alex:\n- CS301: Algorithms\n  MWF 10:00-10:50 in Tech Building 305\n- MATH250: Linear Algebra\n  TR 11:30-12:45 in Science Hall 210\n- ENG220: Technical Writing\n  MW 2:00-3:15 in Humanities 110\n- PHYS200: Physics II\n  TR 9:00-10:15 in Science Hall 150",
+            "events": "Here are the upcoming events:\n- Basketball vs. State University\n  March 15 at 7:00 PM, University Arena\n- Guest Lecture: AI Ethics\n  March 18 at 4:00 PM, Science Hall Auditorium\n- Soccer Tournament\n  March 20-22 at All day, Athletic Fields\n- International Food Fair\n  March 25 at 6:00 PM, Student Center Ballroom",
+            "sports": "Here are the upcoming sports events:\n- Basketball vs. State University\n  March 15 at 7:00 PM, University Arena\n- Soccer Tournament\n  March 20-22 at All day, Athletic Fields",
+            "academic": "Here are the upcoming academic events:\n- Guest Lecture: AI Ethics\n  March 18 at 4:00 PM, Science Hall Auditorium\n- Research Symposium\n  April 5 at 1:00-5:00 PM, Student Center"
+        };
+
+        // Function to get a response based on user input
+        function getResponse(userInput) {
+            const input = userInput.toLowerCase();
+            
+            if (input.includes("hello") || input.includes("hi")) {
+                return mockResponses.hello;
+            } else if (input.includes("cs101")) {
+                return mockResponses.cs101;
+            } else if (input.includes("bio220")) {
+                return mockResponses.bio220;
+            } else if (input.includes("schedule")) {
+                return mockResponses.schedule;
+            } else if (input.includes("sports")) {
+                return mockResponses.sports;
+            } else if (input.includes("academic")) {
+                return mockResponses.academic;
+            } else if (input.includes("events")) {
+                return mockResponses.events;
+            } else {
+                return "I'm not sure how to help with that. You can ask me about course information (like CS101), your class schedule, or campus events.";
+            }
+        }
+
+        // DOM elements
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Function to add a message to the chat
+        function addMessage(message, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to handle user input
+        function handleUserInput() {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                userInput.value = '';
+                
+                // Simulate processing time
+                setTimeout(() => {
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 500);
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', handleUserInput);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserInput();
+            }
+        });
+    </script>
+</body>
+</html>
