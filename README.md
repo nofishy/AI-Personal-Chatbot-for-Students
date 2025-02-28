@@ -12,10 +12,6 @@ This project is a simple but functional prototype for a university student assis
 *   Simple and user-friendly web interface.
 *   Incorporates the university's mascot colors (red and white).
 
-## Demo
-
-You can view the live demo of the web interface [here](https://<your-username>.github.io/<your-repository-name>). (Replace with your GitHub Pages URL)
-
 ## Instructions
 
 1.  **Import the Dialogflow Agent:**
